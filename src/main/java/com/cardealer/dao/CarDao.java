@@ -39,7 +39,7 @@ public class CarDao {
         List<Car> cars = new ArrayList<>();
 
         String sql = "SELECT * FROM cars";
-
+        
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -54,6 +54,7 @@ public class CarDao {
 
                 Car car = new Car(id, brand, model, price, quantity);
                 cars.add(car);
+
             }
 
         } catch (Exception e) {
@@ -104,7 +105,9 @@ public class CarDao {
             stmt.setInt(4, car.getQuantity());
             stmt.setInt(5, car.getId());
 
+
             int rowsUpdated = stmt.executeUpdate();
+
 
             if (rowsUpdated > 0) {
                 System.out.println("Car updated successfully!");

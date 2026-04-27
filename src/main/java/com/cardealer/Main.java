@@ -18,6 +18,7 @@ public class Main {
         boolean running = true;
 
         while (running) {
+
             User user = login(scanner);
 
             if (user == null) {
@@ -31,7 +32,7 @@ public class Main {
             System.out.print("Do you want to exit the program? (yes/no): ");
             String answer = scanner.nextLine();
 
-            if (answer.equalsIgnoreCase("yes")) {
+            if (answer.equalsIgnoreCase("y")) {
                 running = false;
             }
         }
@@ -181,7 +182,6 @@ public class Main {
 
     private static void buyerMenu(Scanner scanner, User user) {
         boolean loggedIn = true;
-
         while (loggedIn) {
             System.out.println("\n=== BUYER MENU ===");
             System.out.println("1. View Cars");
@@ -247,16 +247,9 @@ public class Main {
 
         double totalPrice = car.getPrice() * qty;
 
-        int newQuantity = car.getQuantity() - qty;
-        Car updatedCar = new Car(
-                car.getId(),
-                car.getBrand(),
-                car.getModel(),
-                car.getPrice(),
-                newQuantity
-        );
+        car.reduceStock(qty);
+        carDao.updateCar(car);
 
-        carDao.updateCar(updatedCar);
 
         Transaction transaction = new Transaction(user.getId(), carId, qty, totalPrice);
         transactionDao.addTransaction(transaction);
